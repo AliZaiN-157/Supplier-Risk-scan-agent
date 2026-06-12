@@ -1,0 +1,381 @@
+@import "tailwindcss";
+
+@theme {
+  --color-background: #0f0f0f;
+  --color-foreground: #f0f0f0;
+  --color-card: #1a1a1a;
+  --color-card-foreground: #f0f0f0;
+  --color-popover: #1a1a1a;
+  --color-popover-foreground: #f0f0f0;
+  --color-primary: #3b82f6;
+  --color-primary-foreground: #ffffff;
+  --color-secondary: #27272a;
+  --color-secondary-foreground: #f0f0f0;
+  --color-muted: #27272a;
+  --color-muted-foreground: #a0a0a0;
+  --color-accent: #27272a;
+  --color-accent-foreground: #f0f0f0;
+  --color-destructive: #dc2626;
+  --color-destructive-foreground: #ffffff;
+  --color-border: #333333;
+  --color-input: #333333;
+  --color-ring: #3b82f6;
+  --color-critical: #dc2626;
+  --color-critical-bg: #450a0a;
+  --color-high: #ea580c;
+  --color-high-bg: #431407;
+  --color-medium: #ca8a04;
+  --color-medium-bg: #422006;
+  --color-low: #16a34a;
+  --color-low-bg: #052e16;
+  --radius: 0.5rem;
+}
+
+* {
+  border-color: var(--color-border);
+}
+
+a {
+  color: inherit;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  background-color: var(--color-background);
+  color: var(--color-foreground);
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #0f0f0f;
+}
+::-webkit-scrollbar-thumb {
+  background: #444;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes slideIn {
+  from { opacity: 0; transform: translateX(-12px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.4); }
+  50% { box-shadow: 0 0 0 8px rgba(59, 130, 246, 0); }
+}
+.animate-fade-in {
+  animation: fadeIn 0.4s ease-out forwards;
+}
+.animate-slide-in {
+  animation: slideIn 0.3s ease-out forwards;
+}
+.animate-pulse-glow {
+  animation: pulse-glow 2s infinite;
+}  /* Card hover effect */
+.card-hover {
+  transition: all 0.2s ease;
+}
+.card-hover:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+/* Utility class for print-hide sections */
+.print-hide {
+  display: block;
+}
+
+/* Gradient text */
+.gradient-text {
+  background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* =============================================
+   PRINT STYLES — PDF Export (Landscape Report)
+   ============================================= */
+@media print {
+  /* --- Page setup --- */
+  @page {
+    size: landscape;
+    margin: 0.5in 0.6in;
+  }
+
+  /* Hide non-printable elements */
+  .no-print,
+  aside,
+  nav,
+  .fixed,
+  [id="recent-alerts"] .flex > a:last-child,
+  .card-hover:hover {
+    display: none !important;
+  }
+
+  /* Remove background, ensure white canvas */
+  html, body {
+    background: #fff !important;
+    color: #111 !important;
+    font-size: 10pt !important;
+    line-height: 1.4 !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* Reset the flex layout — sidebar is hidden, main fills all */
+  .flex.h-screen {
+    display: block !important;
+    overflow: visible !important;
+  }
+
+  .flex-1.overflow-y-auto {
+    overflow: visible !important;
+  }
+
+  /* Main container */
+  .max-w-7xl {
+    max-width: 100% !important;
+    padding: 0 !important;
+  }
+
+  /* =============================================
+     REPORT COVER-HEADER (auto-injected via pseudo)
+     ============================================= */
+  .p-6.space-y-6 > div:first-child {
+    /* Report masthead */
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    padding-bottom: 14pt !important;
+    border-bottom: 3px solid #1a56db !important;
+    margin-bottom: 16pt !important;
+  }
+
+  .p-6.space-y-6 > div:first-child h1 {
+    font-size: 20pt !important;
+    font-weight: 800 !important;
+    color: #1a56db !important;
+    letter-spacing: -0.5pt !important;
+    margin: 0 !important;
+  }
+
+  .p-6.space-y-6 > div:first-child p {
+    font-size: 9pt !important;
+    color: #555 !important;
+    margin-top: 2pt !important;
+  }
+
+  /* Inject "Generated" timestamp and report metadata */
+  .p-6.space-y-6 > div:first-child div:last-child {
+    display: none !important;
+  }
+
+  .p-6.space-y-6 > div:first-child::after {
+    content: "Supplier Risk Assessment Report — Generated " attr(data-generated);
+    font-size: 8pt !important;
+    color: #888 !important;
+    margin-top: 2pt !important;
+    display: block !important;
+  }
+
+  /* =============================================
+     KPI CARDS
+     ============================================= */
+  .grid.grid-cols-5 {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    gap: 8pt !important;
+    margin-bottom: 14pt !important;
+  }
+
+  .grid.grid-cols-5 > .bg-card {
+    flex: 1 !important;
+    border: 1px solid #ddd !important;
+    border-radius: 4pt !important;
+    padding: 8pt 10pt !important;
+    background: #fafafa !important;
+    box-shadow: none !important;
+  }
+
+  .grid.grid-cols-5 .text-xs.uppercase {
+    font-size: 7pt !important;
+    color: #777 !important;
+    letter-spacing: 0.5pt !important;
+    font-weight: 600 !important;
+  }
+
+  .grid.grid-cols-5 .text-2xl {
+    font-size: 18pt !important;
+    font-weight: 700 !important;
+  }
+
+  .grid.grid-cols-5 .w-4.h-4 {
+    width: 14px !important;
+    height: 14px !important;
+  }
+
+  /* =============================================
+     CHARTS ROW
+     ============================================= */
+  .grid.grid-cols-2.gap-6 {
+    display: flex !important;
+    gap: 12pt !important;
+    margin-bottom: 14pt !important;
+  }
+
+  .grid.grid-cols-2.gap-6 > .bg-card {
+    flex: 1 !important;
+    border: 1px solid #ddd !important;
+    border-radius: 4pt !important;
+    background: #fff !important;
+    page-break-inside: avoid !important;
+    min-height: auto !important;
+  }
+
+  .grid.grid-cols-2.gap-6 .h-64 {
+    height: 200px !important;
+    min-height: 200px !important;
+  }
+
+  .grid.grid-cols-2.gap-6 .recharts-surface {
+    height: 180px !important;
+    min-height: 180px !important;
+  }
+
+  /* Force chart bar colors to render */
+  .recharts-bar-rectangle path {
+    fill-opacity: 1 !important;
+  }
+
+  /* Chart legends */
+  .gap-5.mt-2 {
+    display: flex !important;
+    justify-content: center !important;
+    gap: 10pt !important;
+    margin-top: 6pt !important;
+  }
+
+  .gap-5.mt-2 .w-2\.5 {
+    width: 8px !important;
+    height: 8px !important;
+  }
+
+  /* =============================================
+     TOP 5 HIGH-RISK TABLE
+     ============================================= */
+  .bg-card.border-border:has(table) {
+    border: 1px solid #ddd !important;
+    border-radius: 4pt !important;
+    margin-bottom: 14pt !important;
+    page-break-inside: avoid !important;
+    background: #fff !important;
+  }
+
+  .bg-card.border-border:has(table) .card-hover {
+    display: none !important;
+  }
+
+  table {
+    width: 100% !important;
+    border-collapse: collapse !important;
+    font-size: 9pt !important;
+  }
+
+  table th {
+    background: #f2f2f2 !important;
+    color: #333 !important;
+    font-weight: 600 !important;
+    text-transform: uppercase !important;
+    font-size: 7.5pt !important;
+    letter-spacing: 0.5pt !important;
+    padding: 6pt 8pt !important;
+    border-bottom: 2px solid #ccc !important;
+    text-align: left !important;
+  }
+
+  table td {
+    padding: 5pt 8pt !important;
+    border-bottom: 1px solid #eee !important;
+    color: #333 !important;
+  }
+
+  table tr:last-child td {
+    border-bottom: none !important;
+  }
+
+  /* Badges in table */
+  table .inline-flex.items-center.rounded-full {
+    font-size: 7pt !important;
+    padding: 1pt 6pt !important;
+    border-radius: 10pt !important;
+    font-weight: 600 !important;
+  }
+
+  /* =============================================
+     RECENT ALERTS SECTION
+     ============================================= */
+  .bg-card.border-border:has(#recent-alerts) {
+    border: 1px solid #ddd !important;
+    border-radius: 4pt !important;
+    background: #fff !important;
+    page-break-inside: avoid !important;
+  }
+
+  #recent-alerts {
+    border: none !important;
+  }
+
+  #recent-alerts .space-y-2 > div {
+    border: 1px solid #eee !important;
+    border-radius: 3pt !important;
+    padding: 6pt 8pt !important;
+    margin-bottom: 4pt !important;
+    page-break-inside: avoid !important;
+  }
+
+  /* =============================================
+     SEED SUPPLIER PROFILES (hide in print)
+     ============================================= */
+  .print-hide {
+    display: none !important;
+  }
+
+  /* =============================================
+     TOAST, BADGE COUNTER — hidden already via .fixed
+     ============================================= */
+
+  /* =============================================
+     SECTION TITLES / CARD HEADERS
+     ============================================= */
+  [class*="text-sm font-semibold"] {
+    font-size: 10pt !important;
+    color: #1a56db !important;
+    font-weight: 700 !important;
+  }
+
+  /* =============================================
+     FOOTER — page numbers
+     ============================================= */
+  @page {
+    @bottom-right {
+      content: counter(page) " / " counter(pages);
+      font-size: 8pt;
+      color: #999;
+    }
+  }
+}

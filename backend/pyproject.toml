@@ -1,0 +1,20 @@
+[project]
+name = "supplier-risk-scan-backend"
+version = "1.0.0"
+description = "Backend for Supplier Risk Scan Agent"
+requires-python = ">=3.11"
+dependencies = [
+    "fastapi>=0.115.0",
+    "uvicorn[standard]>=0.34.0",
+    "faker>=33.0.0",
+    "pydantic>=2.10.0",
+    "httpx>=0.28.0",
+    "python-dotenv>=1.2.2",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.0.0",
+    "pytest-asyncio>=0.25.0",
+    "streamlit>=1.40.0",
+]

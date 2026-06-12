@@ -1,0 +1,19 @@
+# =============================================================================
+# .dockerignore — Backend
+# =============================================================================
+__pycache__
+*.pyc
+.pytest_cache
+.venv
+.git
+.gitignore
+*.md
+.env
+.env.local
+.DS_Store
+.streamlit
+streamlit_app.py
+run_streamlit.bat
+run_streamlit.sh
+tests
+*.md

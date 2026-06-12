@@ -1,0 +1,40 @@
+# Environment
+.env
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+
+# Test reports
+backend/tests/*.json
+
+# Backend .env file
+backend/.env
+
+# uv
+.uv/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Documents (large binary files, not source code)
+*.pdf
+*.docx
+*.pptx
+
+# Docker
+.docker/
